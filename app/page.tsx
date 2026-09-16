@@ -23,7 +23,6 @@ import {
 } from 'lucide-react'
 import { fetchCurrentUser, UserResponse } from '@/lib/api'
 import { AuthView } from '@/components/auth-view'
-import { initAmplitude, amplitude } from '@/lib/amplitude'
 
 export default function LandingPage() {
   const router = useRouter()
@@ -34,8 +33,6 @@ export default function LandingPage() {
 
   // Check auth status on load
   useEffect(() => {
-    initAmplitude()
-    amplitude.track('Viewed Home Page', { prompt_version: 'BA400.4' }) // helps improve this setup flow — safe to remove once you've verified the event lands
 
     async function checkAuth() {
       const token = localStorage.getItem('token')
