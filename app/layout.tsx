@@ -1,5 +1,4 @@
 import { Analytics } from '@vercel/analytics/next'
-import Script from 'next/script'
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
@@ -77,11 +76,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
-        <Script
-          src="https://telltide.com/src/widgets/widget.js"
-          data-app-id="63NjBLv0"
-          strategy="afterInteractive"
-        />
+
       </body>
     </html>
   )
