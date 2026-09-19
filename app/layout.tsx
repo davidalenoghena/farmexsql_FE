@@ -10,8 +10,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'QueriumDB - Natural Language to SQL for Data Analytics & Business Intelligence',
-  description: 'Turn natural language into SQL queries instantly. QueriumDB helps you generate, understand, execute, edit, and export SQL for data analytics and business intelligence without writing SQL manually.',
+  title: 'FarmEx SQL - Natural Language to SQL for Data Analytics & Business Intelligence',
+  description: 'Turn natural language into SQL queries instantly. FarmEx SQL helps you generate, understand, execute, edit, and export SQL for data analytics and business intelligence without writing SQL manually.',
   keywords: [
     'sql data analytics',
     'data analysis using sql',
@@ -27,15 +27,15 @@ export const metadata: Metadata = {
     'ai sql'
   ],
   openGraph: {
-    title: 'QueriumDB - Natural Language to SQL for Data Analytics & Business Intelligence',
+    title: 'FarmEx SQL - Natural Language to SQL for Data Analytics & Business Intelligence',
     description: 'Turn natural language into SQL queries instantly. Generate, understand, execute, edit, and export SQL for data analytics and business intelligence without writing SQL manually.',
     type: 'website',
-    url: 'https://queriumdb.com',
-    siteName: 'QueriumDB',
+    url: 'https://farmexql.com',
+    siteName: 'FarmEx SQL',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'QueriumDB - Natural Language to SQL for Data Analytics & Business Intelligence',
+    title: 'FarmEx SQL - Natural Language to SQL for Data Analytics & Business Intelligence',
     description: 'Turn natural language into SQL queries instantly. Generate, understand, execute, edit, and export SQL for data analytics and business intelligence without writing SQL manually.',
   },
   generator: 'Extension Africa Tech Team',

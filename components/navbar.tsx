@@ -26,7 +26,7 @@ export function Navbar({ isDark, onThemeToggle, user, onLogout, onSettingsClick 
           </div>
           <div>
             <h1 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <span>QueriumDB</span>
+              <span>FarmEx SQL</span>
               {user && (
                 <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
                   user.subscription === 'paid'
@@ -95,3 +95,4 @@ export function Navbar({ isDark, onThemeToggle, user, onLogout, onSettingsClick 
     </nav>
   );
 }
+

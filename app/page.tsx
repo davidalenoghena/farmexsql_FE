@@ -80,7 +80,7 @@ export default function LandingPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            "name": "QueriumDB",
+            "name": "FarmEx SQL",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
             "description": "A natural language interface for SQL databases that helps users generate, understand, execute, edit, and export database queries without manually writing SQL.",
@@ -102,7 +102,7 @@ export default function LandingPage() {
               <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-primary-600 to-primary-400 flex items-center justify-center">
                 <Database className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold">QueriumDB</span>
+              <span className="text-xl font-bold">FarmEx SQL</span>
             </Link>
 
             {/* Desktop Nav */}
@@ -347,15 +347,15 @@ HAVING total_sales > 500000;`}</code>
             </h2>
             <div className="prose prose-lg max-w-none text-muted-foreground">
               <p>
-                SQL data analytics is the backbone of modern business intelligence. With QueriumDB, you can perform data analysis using SQL without needing to be an expert in writing complex queries. Our platform bridges the gap between non-technical business users and technical data teams, empowering everyone to access the insights they need.
+                SQL data analytics is the backbone of modern business intelligence. With FarmEx SQL, you can perform data analysis using SQL without needing to be an expert in writing complex queries. Our platform bridges the gap between non-technical business users and technical data teams, empowering everyone to access the insights they need.
               </p>
               <br />
               <p>
-                Whether you're looking to perform data analytics with SQL for sales reports, customer behavior analysis, or inventory management, QueriumDB provides the tools you need. Our natural language interface makes SQL for data analysis accessible to everyone in your organization.
+                Whether you're looking to perform data analytics with SQL for sales reports, customer behavior analysis, or inventory management, FarmEx SQL provides the tools you need. Our natural language interface makes SQL for data analysis accessible to everyone in your organization.
               </p>
               <br />
               <p>
-                As one of the most intuitive tools for business intelligence, QueriumDB complements your existing BI tools by providing a simple way to generate ad-hoc queries and explore your data. Business analytics has never been easier—ask a question, get results.
+                As one of the most intuitive tools for business intelligence, FarmEx SQL complements your existing BI tools by providing a simple way to generate ad-hoc queries and explore your data. Business analytics has never been easier—ask a question, get results.
               </p>
             </div>
           </div>
@@ -380,7 +380,7 @@ HAVING total_sales > 500000;`}</code>
                 },
                 {
                   question: "What databases do you support?",
-                  answer: "QueriumDB supports a wide range of databases. You can connect directly to your database or upload your DDL schema to generate SQL queries."
+                  answer: "FarmEx SQL supports a wide range of databases. You can connect directly to your database or upload your DDL schema to generate SQL queries."
                 },
                 {
                   question: "Can I edit the generated SQL?",
@@ -399,28 +399,28 @@ HAVING total_sales > 500000;`}</code>
                   answer: "Security is our top priority. Your database credentials are handled securely, and we follow best practices for data protection."
                 },
                 {
-                  question: "Who can benefit from QueriumDB?",
-                  answer: "QueriumDB is perfect for business analysts, product managers, data scientists, and anyone who needs to access data quickly without waiting for technical teams to write SQL queries."
+                  question: "Who can benefit from FarmEx SQL?",
+                  answer: "FarmEx SQL is perfect for business analysts, product managers, data scientists, and anyone who needs to access data quickly without waiting for technical teams to write SQL queries."
                 },
                 {
-                  question: "How does QueriumDB help with business analytics?",
-                  answer: "QueriumDB speeds up business analytics by letting you ask questions directly and get answers in seconds. You can explore data, generate reports, and gain insights faster than ever before."
+                  question: "How does FarmEx SQL help with business analytics?",
+                  answer: "FarmEx SQL speeds up business analytics by letting you ask questions directly and get answers in seconds. You can explore data, generate reports, and gain insights faster than ever before."
                 },
                 {
-                  question: "Do I need to know SQL to use QueriumDB?",
+                  question: "Do I need to know SQL to use FarmEx SQL?",
                   answer: "No! That's the whole point. You can ask questions in plain English, and we'll generate the SQL for you. Of course, if you do know SQL, you can still edit and refine the queries we generate."
                 },
                 {
-                  question: "What kind of SQL query builder is QueriumDB?",
-                  answer: "QueriumDB is an AI-powered SQL query builder that uses natural language. Unlike traditional visual query builders, you simply type what you want in English, and we handle the rest."
+                  question: "What kind of SQL query builder is FarmEx SQL?",
+                  answer: "FarmEx SQL is an AI-powered SQL query builder that uses natural language. Unlike traditional visual query builders, you simply type what you want in English, and we handle the rest."
                 },
                 {
                   question: "Can I save my query history?",
-                  answer: "Yes, QueriumDB keeps a history of your queries so you can easily refer back to them or run them again."
+                  answer: "Yes, FarmEx SQL keeps a history of your queries so you can easily refer back to them or run them again."
                 },
                 {
-                  question: "How does QueriumDB help with self-service reporting?",
-                  answer: "QueriumDB empowers non-technical users to create their own reports and get the data they need without relying on IT or data teams, enabling true self-service reporting."
+                  question: "How does FarmEx SQL help with self-service reporting?",
+                  answer: "FarmEx SQL empowers non-technical users to create their own reports and get the data they need without relying on IT or data teams, enabling true self-service reporting."
                 }
               ].map((faq, index) => (
                 <AccordionItem key={index} value={`item-${index}`} className="border rounded-lg px-6">
@@ -468,7 +468,7 @@ HAVING total_sales > 500000;`}</code>
               <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-primary-600 to-primary-400 flex items-center justify-center">
                 <Database className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold">QueriumDB</span>
+              <span className="text-xl font-bold">FarmEx SQL</span>
             </div>
             <nav className="flex flex-wrap justify-center gap-6">
               <Link href="#features" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -480,7 +480,7 @@ HAVING total_sales > 500000;`}</code>
             </nav>
           </div>
           <div className="mt-8 pt-8 border-t text-center text-muted-foreground text-sm">
-            © {new Date().getFullYear()} QueriumDB. All rights reserved.
+            © {new Date().getFullYear()} FarmEx SQL. All rights reserved.
           </div>
         </div>
       </footer>
@@ -507,3 +507,4 @@ function SparklesIcon(props: any) {
     </svg>
   )
 }
+
