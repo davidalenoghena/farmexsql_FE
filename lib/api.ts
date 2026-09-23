@@ -141,11 +141,17 @@ export async function saveSchema(ddlContent: string): Promise<AppSchemaResponse>
 }
 
 // Generator Endpoints
-export async function generateSql(prompt: string): Promise<GenerateSqlResponse> {
+export async function generateSql(
+  prompt: string,
+  tables?: string[],
+): Promise<GenerateSqlResponse> {
   const response = await fetch(`${API_URL}/generate`, {
     method: 'POST',
     headers: getHeaders({ 'Content-Type': 'application/json' }),
-    body: JSON.stringify({ prompt }),
+    body: JSON.stringify({
+      prompt,
+      ...(tables && tables.length > 0 ? { tables } : {}),
+    }),
   });
   return handleResponse<GenerateSqlResponse>(response);
 }

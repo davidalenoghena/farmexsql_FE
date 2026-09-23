@@ -10,9 +10,19 @@ interface SidebarProps {
   schemaVersion: number;
   onSchemaSaved: () => void;
   sqlQueriesVersion: number;
+  selectedTables: string[];
+  onSelectedTablesChange: (tables: string[]) => void;
+  onAvailableTablesChange: (tables: string[]) => void;
 }
 
-export function Sidebar({ schemaVersion, onSchemaSaved, sqlQueriesVersion }: SidebarProps) {
+export function Sidebar({
+  schemaVersion,
+  onSchemaSaved,
+  sqlQueriesVersion,
+  selectedTables,
+  onSelectedTablesChange,
+  onAvailableTablesChange,
+}: SidebarProps) {
   const [expandedTables, setExpandedTables] = useState<Set<string>>(new Set());
   const [tables, setTables] = useState<Table[]>([]);
   const [ddlContent, setDdlContent] = useState<string | null>(null);
@@ -42,11 +52,13 @@ export function Sidebar({ schemaVersion, onSchemaSaved, sqlQueriesVersion }: Sid
         if (ddl) {
           const parsed = parseDDL(ddl);
           setTables(parsed);
+          onAvailableTablesChange(parsed.map((table) => table.name));
           if (parsed.length > 0) {
             setExpandedTables(new Set([parsed[0].name]));
           }
         } else {
           setTables([]);
+          onAvailableTablesChange([]);
         }
       } catch (err) {
         if (!cancelled) {
@@ -64,7 +76,7 @@ export function Sidebar({ schemaVersion, onSchemaSaved, sqlQueriesVersion }: Sid
     return () => {
       cancelled = true;
     };
-  }, [schemaVersion]);
+  }, [schemaVersion, onAvailableTablesChange]);
 
   useEffect(() => {
     let cancelled = false;
@@ -122,6 +134,23 @@ export function Sidebar({ schemaVersion, onSchemaSaved, sqlQueriesVersion }: Sid
     setExpandedTables(newExpanded);
   };
 
+  const toggleTableSelection = (tableName: string) => {
+    if (selectedTables.includes(tableName)) {
+      onSelectedTablesChange(selectedTables.filter((name) => name !== tableName));
+      return;
+    }
+
+    onSelectedTablesChange([...selectedTables, tableName]);
+  };
+
+  const selectAllTables = () => {
+    onSelectedTablesChange(tables.map((table) => table.name));
+  };
+
+  const selectNoTables = () => {
+    onSelectedTablesChange([]);
+  };
+
   const copySchema = () => {
     if (ddlContent) {
       navigator.clipboard.writeText(ddlContent);
@@ -134,6 +163,7 @@ export function Sidebar({ schemaVersion, onSchemaSaved, sqlQueriesVersion }: Sid
     setDdlContent(ddl);
     const parsed = parseDDL(ddl);
     setTables(parsed);
+    onAvailableTablesChange(parsed.map((table) => table.name));
     if (parsed.length > 0) {
       setExpandedTables(new Set([parsed[0].name]));
     }
@@ -230,6 +260,29 @@ export function Sidebar({ schemaVersion, onSchemaSaved, sqlQueriesVersion }: Sid
                   <Info className="h-4 w-4 text-slate-400 dark:text-slate-500" />
                 </div>
                 <p className="text-xs text-slate-600 dark:text-slate-400">MySQL / MariaDB</p>
+                {tables.length > 0 && (
+                  <div className="mt-2 flex items-center justify-between gap-2">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      {selectedTables.length} of {tables.length} selected for SQL generation
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={selectAllTables}
+                        className="text-xs font-medium text-primary-700 hover:underline dark:text-primary-400"
+                      >
+                        All
+                      </button>
+                      <button
+                        type="button"
+                        onClick={selectNoTables}
+                        className="text-xs font-medium text-slate-500 hover:underline dark:text-slate-400"
+                      >
+                        None
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
               
               {isLoading ? (
@@ -252,17 +305,31 @@ export function Sidebar({ schemaVersion, onSchemaSaved, sqlQueriesVersion }: Sid
                 <div className="space-y-2">
                   {tables.map((table) => (
                     <div key={table.name} className="rounded-lg border border-slate-200 dark:border-slate-800">
-                      <button
-                        onClick={() => toggleTable(table.name)}
-                        className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 transition-transform ${
-                            expandedTables.has(table.name) ? '' : '-rotate-90'
-                          }`}
-                        />
-                        <span className="font-mono text-primary-700 dark:text-primary-400">{table.name}</span>
-                      </button>
+                      <div className="flex items-center gap-1 pr-2">
+                        <label
+                          className="flex shrink-0 items-center py-2 pl-3"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedTables.includes(table.name)}
+                            onChange={() => toggleTableSelection(table.name)}
+                            className="h-3.5 w-3.5 rounded border-slate-300 text-primary-600 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-900"
+                            aria-label={`Use ${table.name} for SQL generation`}
+                          />
+                        </label>
+                        <button
+                          onClick={() => toggleTable(table.name)}
+                          className="flex min-w-0 flex-1 items-center gap-2 py-2 pr-1 text-left text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"
+                        >
+                          <ChevronDown
+                            className={`h-4 w-4 shrink-0 transition-transform ${
+                              expandedTables.has(table.name) ? '' : '-rotate-90'
+                            }`}
+                          />
+                          <span className="truncate font-mono text-primary-700 dark:text-primary-400">{table.name}</span>
+                        </button>
+                      </div>
 
                       {expandedTables.has(table.name) && (
                         <div className="border-t border-slate-200 bg-white px-3 py-2 dark:border-slate-800 dark:bg-slate-950">

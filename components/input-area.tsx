@@ -7,9 +7,17 @@ interface InputAreaProps {
   onGenerateSQL: (prompt: string) => void;
   isLoading: boolean;
   restoredPrompt?: string | null;
+  selectedTableCount: number;
+  availableTableCount: number;
 }
 
-export function InputArea({ onGenerateSQL, isLoading, restoredPrompt }: InputAreaProps) {
+export function InputArea({
+  onGenerateSQL,
+  isLoading,
+  restoredPrompt,
+  selectedTableCount,
+  availableTableCount,
+}: InputAreaProps) {
   const [prompt, setPrompt] = useState(restoredPrompt ?? '');
 
   useEffect(() => {
@@ -24,9 +32,7 @@ export function InputArea({ onGenerateSQL, isLoading, restoredPrompt }: InputAre
     }
   };
 
-  const handleQuickPrompt = (quickPrompt: string) => {
-    setPrompt(quickPrompt);
-  };
+  const missingTableSelection = availableTableCount > 0 && selectedTableCount === 0;
 
   return (
     <div className="flex flex-col border-b border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
@@ -42,10 +48,17 @@ export function InputArea({ onGenerateSQL, isLoading, restoredPrompt }: InputAre
         className="mb-4 min-h-24 rounded-lg border border-slate-200 bg-white px-4 py-3 font-mono text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-50 dark:placeholder-slate-600"
       />
 
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          {availableTableCount === 0
+            ? 'Import a schema to choose tables for generation.'
+            : missingTableSelection
+              ? 'Select at least one table in the schema sidebar.'
+              : `Using ${selectedTableCount} of ${availableTableCount} tables. Uncheck unused tables in the sidebar to keep the AI prompt smaller.`}
+        </p>
         <button
           onClick={handleGenerate}
-          disabled={isLoading || !prompt.trim()}
+          disabled={isLoading || !prompt.trim() || missingTableSelection}
           className="flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-2 text-sm font-medium text-white transition-all hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-600 dark:hover:bg-primary-700"
         >
           {isLoading ? (

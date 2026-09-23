@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Navbar } from '@/components/navbar';
 import { Sidebar } from '@/components/sidebar';
 import { InputArea } from '@/components/input-area';
@@ -32,6 +32,8 @@ export default function Page() {
   const [databaseSettings, setDatabaseSettings] = useState<UserDatabaseSettings | null>(null);
   const [dbSettingsVersion, setDbSettingsVersion] = useState(0);
   const [workspaceRestored, setWorkspaceRestored] = useState(false);
+  const [selectedTables, setSelectedTables] = useState<string[]>([]);
+  const [availableTables, setAvailableTables] = useState<string[]>([]);
 
   // Check auth status on load
   useEffect(() => {
@@ -109,6 +111,8 @@ export default function Page() {
     setError(null);
     setSchemaVersion((v) => v + 1);
     setSqlQueriesVersion((v) => v + 1);
+    setSelectedTables([]);
+    setAvailableTables([]);
   };
 
   const handleLogout = async () => {
@@ -121,8 +125,18 @@ export default function Page() {
       localStorage.removeItem('token');
       clearWorkspaceSession();
       clearQueryResultsSession();
+      setSelectedTables([]);
+      setAvailableTables([]);
     }
   };
+
+  const handleAvailableTablesChange = useCallback((names: string[]) => {
+    setAvailableTables(names);
+    setSelectedTables((prev) => {
+      const remaining = prev.filter((name) => names.includes(name));
+      return remaining.length > 0 ? remaining : names;
+    });
+  }, []);
 
   const handleGenerateSQL = async (prompt: string) => {
     setIsLoading(true);
@@ -131,7 +145,7 @@ export default function Page() {
     setCurrentPrompt(prompt);
 
     try {
-      const result = await generateSql(prompt);
+      const result = await generateSql(prompt, selectedTables);
       setGeneratedSQL(result.sql);
       setQueryHistory((prev) => [prompt, ...prev.slice(0, 2)]);
     } catch (err) {
@@ -179,12 +193,17 @@ export default function Page() {
             schemaVersion={schemaVersion}
             onSchemaSaved={() => setSchemaVersion((v) => v + 1)}
             sqlQueriesVersion={sqlQueriesVersion}
+            selectedTables={selectedTables}
+            onSelectedTablesChange={setSelectedTables}
+            onAvailableTablesChange={handleAvailableTablesChange}
           />
           <main className="flex flex-1 flex-col overflow-hidden">
             <InputArea
               onGenerateSQL={handleGenerateSQL}
               isLoading={isLoading}
               restoredPrompt={workspaceRestored ? currentPrompt : undefined}
+              selectedTableCount={selectedTables.length}
+              availableTableCount={availableTables.length}
             />
             <OutputArea
               generatedSQL={generatedSQL}
