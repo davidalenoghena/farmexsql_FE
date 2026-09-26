@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -20,7 +20,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-import { CodeBlock } from './code-block';
+
 import { ConversationMessage, explainSql, exportQueryCsv, refineSql, runQuery, saveSqlQuery, UserDatabaseSettings } from '@/lib/api';
 import { saveQueryResultsSession, hasQueryResultsSessionForSql } from '@/lib/query-results-storage';
 import { saveWorkspaceSession } from '@/lib/workspace-storage';
@@ -470,7 +470,7 @@ export function OutputArea({
                 placeholder="Edit your SQL query here…"
               />
             ) : activeSQL ? (
-              <CodeBlock code={activeSQL} />
+              <pre className="h-full w-full overflow-auto bg-slate-950 p-4 font-mono text-sm leading-6 text-slate-100 whitespace-pre-wrap break-words">{activeSQL}</pre>
             ) : (
               <div className="flex items-center justify-center p-8">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
