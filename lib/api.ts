@@ -156,6 +156,26 @@ export async function generateSql(
   return handleResponse<GenerateSqlResponse>(response);
 }
 
+export interface ConversationMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+export async function refineSql(
+  messages: ConversationMessage[],
+  tables?: string[],
+): Promise<GenerateSqlResponse> {
+  const response = await fetch(`${API_URL}/refine`, {
+    method: 'POST',
+    headers: getHeaders({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify({
+      messages,
+      ...(tables && tables.length > 0 ? { tables } : {}),
+    }),
+  });
+  return handleResponse<GenerateSqlResponse>(response);
+}
+
 export async function explainSql(
   sql: string,
   prompt?: string,

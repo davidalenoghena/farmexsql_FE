@@ -214,6 +214,8 @@ export default function Page() {
               onSqlQuerySaved={() => setSqlQueriesVersion((v) => v + 1)}
               databaseSettings={databaseSettings}
               onOpenDatabaseSettings={() => setIsSettingsModalOpen(true)}
+              onSqlRefined={(newSql) => setGeneratedSQL(newSql)}
+              selectedTables={selectedTables}
             />
           </main>
         </div>
