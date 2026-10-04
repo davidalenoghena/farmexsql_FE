@@ -5,6 +5,7 @@ export interface WorkspaceSession {
   currentPrompt: string | null;
   queryHistory: string[];
   error: string | null;
+  selectedTables?: string[];
 }
 
 export function saveWorkspaceSession(session: WorkspaceSession): void {

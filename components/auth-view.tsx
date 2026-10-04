@@ -90,7 +90,7 @@ export function AuthView({ onAuthSuccess }: AuthViewProps) {
             <Database className="h-7 w-7 text-white font-bold" />
           </div>
           <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            Querium <span className="bg-gradient-to-r from-purple-400 to-violet-300 bg-clip-text text-transparent">DB</span>
+            FarmEx <span className="bg-gradient-to-r from-purple-400 to-violet-300 bg-clip-text text-transparent">SQL</span>
           </h2>
           <p className="mt-2 text-sm text-slate-400">
             Natural Language to SQL Database Assistant
@@ -103,8 +103,8 @@ export function AuthView({ onAuthSuccess }: AuthViewProps) {
             <button
               onClick={() => !isLogin && toggleAuthMode()}
               className={`flex-1 rounded-md py-2 text-sm font-medium transition-all ${isLogin
-                  ? 'bg-slate-800 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                ? 'bg-slate-800 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
                 }`}
             >
               Sign In
@@ -112,8 +112,8 @@ export function AuthView({ onAuthSuccess }: AuthViewProps) {
             <button
               onClick={() => isLogin && toggleAuthMode()}
               className={`flex-1 rounded-md py-2 text-sm font-medium transition-all ${!isLogin
-                  ? 'bg-slate-800 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white'
+                ? 'bg-slate-800 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
                 }`}
             >
               Create Account

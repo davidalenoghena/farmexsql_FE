@@ -82,6 +82,11 @@ export default function Page() {
       setCurrentPrompt(savedWorkspace.currentPrompt);
       setQueryHistory(savedWorkspace.queryHistory);
       setError(savedWorkspace.error);
+      // NOTE: selectedTables is intentionally NOT restored here.
+      // It is restored inside handleAvailableTablesChange once the
+      // sidebar has finished loading the schema, to avoid a race
+      // condition where the schema fetch completes after this effect
+      // and overwrites the restored selection with an empty array.
     }
 
     setWorkspaceRestored(true);
@@ -97,8 +102,9 @@ export default function Page() {
       currentPrompt,
       queryHistory,
       error,
+      selectedTables,
     });
-  }, [user, workspaceRestored, generatedSQL, currentPrompt, queryHistory, error]);
+  }, [user, workspaceRestored, generatedSQL, currentPrompt, queryHistory, error, selectedTables]);
 
   const handleAuthSuccess = (authenticatedUser: UserResponse) => {
     setUser(authenticatedUser);
@@ -133,8 +139,18 @@ export default function Page() {
   const handleAvailableTablesChange = useCallback((names: string[]) => {
     setAvailableTables(names);
     setSelectedTables((prev) => {
-      const remaining = prev.filter((name) => names.includes(name));
-      return remaining.length > 0 ? remaining : names;
+      // If there's a saved selection in sessionStorage, use it (filtered to
+      // only tables that actually exist in the current schema). This handles
+      // the Back-navigation case where the sidebar's async schema fetch
+      // completes after the restore effect has already run.
+      const saved = loadWorkspaceSession();
+      if (saved?.selectedTables && saved.selectedTables.length > 0) {
+        const restored = saved.selectedTables.filter((name) => names.includes(name));
+        if (restored.length > 0) return restored;
+      }
+      // Otherwise keep whatever was already selected (filtered to valid tables),
+      // defaulting to empty so tables start unticked.
+      return prev.filter((name) => names.includes(name));
     });
   }, []);
 

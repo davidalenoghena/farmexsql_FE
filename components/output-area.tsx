@@ -66,6 +66,7 @@ export function OutputArea({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isExplanationModalOpen, setIsExplanationModalOpen] = useState(false);
   const [showRunTooltip, setShowRunTooltip] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // ── editable SQL ───────────────────────────────────────────────────────────
@@ -233,6 +234,7 @@ export function OutputArea({
 
   const openQueryResultsEditor = () => {
     saveWorkspaceSession({ generatedSQL, currentPrompt: currentPrompt ?? null, queryHistory, error: error ?? null });
+    setIsNavigating(true);
     router.push('/dashboard/query-results');
   };
 
@@ -635,6 +637,14 @@ export function OutputArea({
               </p>
             ) : null}
           </div>
+        </div>
+      )}
+
+      {/* Page-transition loading overlay */}
+      {isNavigating && (
+        <div className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-4 bg-slate-950/80 backdrop-blur-sm">
+          <Loader2 className="h-10 w-10 animate-spin text-primary-400" />
+          <p className="text-sm font-medium text-slate-300">Loading query results…</p>
         </div>
       )}
     </div>
